@@ -1,0 +1,90 @@
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+int main() {
+    int opciones;
+
+    do {
+        cout << "=======Menu=======" << "\n";
+
+        cout << "1) Comenzar Juego" << "\n";
+
+        cout << "2) Ajustes" << "\n";
+
+        cout << "3) Salir" << "\n";
+
+        cout << "==================" << "\n";
+
+        cout << "Seleccione una opcion: ";
+
+        cin >> opciones;
+
+        switch(opciones) {
+            case 1:
+                cout << "El juego comienza\n";
+                break;
+            case 2:
+                cout << "Entra en los ajustes\n";
+                break;
+            case 3:
+                cout << "Espero le haya gustado el juego, Hasta pronto\n";
+                break;
+            default:
+                cout << "Error, no es una opcion valida\n";
+                break;
+        }
+        cout << "\n";
+        
+    } while(opciones != 3);
+
+    struct {
+        int fortaleza;
+        int damage;
+        std::string zombies;
+    } zombie1, zombie2, zombie3, zombie4, zombie5;
+
+    zombie1.damage = 5;
+    zombie1.fortaleza = 70;
+    zombie1.zombies = "Agil y veloz";
+
+    zombie2.damage = 15;
+    zombie2.fortaleza = 120;
+    zombie2.zombies = "Fuerte";
+
+    zombie3.damage = 1;
+    zombie3.fortaleza = 50;
+    zombie3.zombies = "Inteligente";
+
+    zombie4.damage = 3;
+    zombie4.fortaleza = 100;
+    zombie4.zombies = "Infectado por Hongos";
+
+    zombie5.damage = 5;
+    zombie5.fortaleza = 100;
+    zombie5.zombies = "Bioluminiscente";
+
+    struct {
+        int vida;
+        int damage;
+        std::string soldados;
+    } soldado1, soldado2, soldado3, soldado4, soldado5;
+
+    soldado1.vida = 150;
+    soldado1.soldados = "Tanque";
+
+    soldado2.vida = 100;
+    soldado2.soldados = "Veterano";
+
+    soldado3.vida = 75;
+    soldado3.soldados = "Novato";
+
+    soldado4.vida = 50;
+    soldado4.soldados = "Debil";
+
+    soldado5.vida = 30;
+    soldado5.soldados = "Apoyo";
+
+    return 0;
+}
