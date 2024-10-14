@@ -3,20 +3,84 @@
 
 using namespace std;
 
+struct Curacion {
+    int cantidad_curacion;
+    string nombre_curacion;
+} curacion1, curacion2, curacion3, curacion4;
+
+struct Soldado {
+    int vida_soldado;
+    string nombre_soldado;
+} soldado1, soldado2, soldado3, soldado4, soldado5;
+
+struct Zombie {
+    int fortaleza_zombie;
+    int damage_zombie;
+    string nombre_zombie;
+} zombie1, zombie2, zombie3, zombie4, zombie5;
+
+void curaciones() {
+    curacion1.nombre_curacion = "Botiquin";
+    curacion1.cantidad_curacion = 100;
+
+    curacion2.nombre_curacion = "Vendaje";
+    curacion2.cantidad_curacion = 20;
+
+    curacion3.nombre_curacion = "Pastillas";
+    curacion3.cantidad_curacion = 10;
+
+    curacion4.nombre_curacion = "Inyección";
+    curacion4.cantidad_curacion = 15; 
+}
+
+void soldados() {
+    soldado1.vida_soldado = 200;
+    soldado1.nombre_soldado = "Comandante";
+
+    soldado2.vida_soldado = 150;
+    soldado2.nombre_soldado = "Tanque";
+
+    soldado3.vida_soldado = 100;
+    soldado3.nombre_soldado = "Veterano";
+
+    soldado4.vida_soldado = 75;
+    soldado4.nombre_soldado = "Novato";
+
+    soldado5.vida_soldado = 50;
+    soldado5.nombre_soldado = "Apoyo";
+}
+
+void tipos_zombies() {
+    zombie1.damage_zombie = 5;
+    zombie1.fortaleza_zombie = 70;
+    zombie1.nombre_zombie = "Agil y veloz";
+
+    zombie2.damage_zombie = 15;
+    zombie2.fortaleza_zombie = 120;
+    zombie2.nombre_zombie = "Fuerte";
+
+    zombie3.damage_zombie = 1;
+    zombie3.fortaleza_zombie = 50;
+    zombie3.nombre_zombie = "Inteligente";
+
+    zombie4.damage_zombie = 3;
+    zombie4.fortaleza_zombie = 100;
+    zombie4.nombre_zombie = "Infectado por Hongos";
+
+    zombie5.damage_zombie = 5;
+    zombie5.fortaleza_zombie = 100;
+    zombie5.nombre_zombie = "Bioluminiscente";
+}
+
 int main() {
     int opciones;
 
     do {
         cout << "=======Menu=======" << "\n";
-
         cout << "1) Comenzar Juego" << "\n";
-
         cout << "2) Ajustes" << "\n";
-
         cout << "3) Salir" << "\n";
-
         cout << "==================" << "\n";
-
         cout << "Seleccione una opcion: ";
 
         cin >> opciones;
@@ -39,49 +103,9 @@ int main() {
         
     } while(opciones != 3);
 
-    struct {
-        int fortaleza;
-        int damage;
-        std::string zombies;
-    } zombie1, zombie2, zombie3, zombie4, zombie5;
 
-    zombie1.damage = 5;
-    zombie1.fortaleza = 70;
-    zombie1.zombies = "Agil y veloz";
-
-    zombie2.damage = 15;
-    zombie2.fortaleza = 120;
-    zombie2.zombies = "Fuerte";
-
-    zombie3.damage = 1;
-    zombie3.fortaleza = 50;
-    zombie3.zombies = "Inteligente";
-
-    zombie4.damage = 3;
-    zombie4.fortaleza = 100;
-    zombie4.zombies = "Infectado por Hongos";
-
-    zombie5.damage = 5;
-    zombie5.fortaleza = 100;
-    zombie5.zombies = "Bioluminiscente";
-
-    struct {
-        int vida;
-        int damage;
-        std::string soldados;
-    } soldado1, soldado2, soldado3, soldado4, soldado5;
-
-    soldado1.vida = 150;
-    soldado1.soldados = "Tanque";
-
-    soldado2.vida = 100;
-    soldado2.soldados = "Veterano";
-
-    soldado3.vida = 75;
-    soldado3.soldados = "Novato";
-
-    soldado4.vida = 50;
-    soldado4.soldados = "Debil";
+    return 0;
+}
 
     soldado5.vida = 30;
     soldado5.soldados = "Apoyo";
