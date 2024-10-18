@@ -24,7 +24,7 @@ struct armas {
     int damage;
     int municion;
     int duraciondelarma;
-    string todaslasarmas
+    string todaslasarmas;
 } armasdefuego, armasblancas, armascontundentes, armasarrojadizas, armasdeproyectiles;
 
 void curaciones() {
@@ -39,7 +39,7 @@ void curaciones() {
 
     curacion4.nombre_curacion = "Inyección";
     curacion4.cantidad_curacion = 15; 
-}
+};
 
 void soldados() {
     soldado1.vida_soldado = 200;
@@ -56,7 +56,7 @@ void soldados() {
 
     soldado5.vida_soldado = 50;
     soldado5.nombre_soldado = "Apoyo";
-}
+};
 
 void tipos_zombies() {
     zombie1.damage_zombie = 5;
@@ -78,7 +78,7 @@ void tipos_zombies() {
     zombie5.damage_zombie = 5;
     zombie5.fortaleza_zombie = 100;
     zombie5.nombre_zombie = "Bioluminiscente";
-
+};
 void armas1() {
     armasdefuego.todaslasarmas= "Pistola";
     armasdefuego.municion= 24;
@@ -99,26 +99,28 @@ void armas1() {
     armasdefuego.municion= 7;
     armasdefuego.damage= 10;
     armasdefuego.desgaste=2;
-}
+};
 
 void armas2 (){
     armasblancas.todaslasarmas= "Cuchillo";
     armasblancas.municion= //Infinito hasta que se desgaste// Averiguar como ponerlo
-    armasblancas.damage= 6
-    armasblancas.desgaste= 2
+    armasblancas.damage= 6;
+    armasblancas.desgaste= 2;
 
     armasblancas.todaslasarmas= "Katana";
     armasblancas.municion= //Infinito
     armasblancas.damage= 8;
-    armasblancas.desgaste= 2
-}
+    armasblancas.desgaste= 2;
+};
 
 void armas3(){
+    
     armasblancas.todaslasarmas= "Bate de Beisbol de madera";
     armasblancas.municion= //infinito
     armasblancas.damage= 4;
     armasblancas.desgaste= 3;
 
+    
     armascontundentes.todaslasarmas="Tuberias";
     armascontundentes.municion= //Tambien infinito hasta que se desgaste
     armascontundentes.damage= 3;
@@ -126,21 +128,21 @@ void armas3(){
 
     armascontundentes.todaslasarmas="Martillo";
     armascontundentes.municion= //Tambien infinito hasta que se desgaste
-    armascontundentes.damage= 8 //En la cabeza es critico 14
+    armascontundentes.damage= 8; //En la cabeza es critico 14
     armascontundentes.desgaste=3;
-}
+};
 
 void armas4(){
     armasdeproyectiles.todaslasarmas= "Ballesta";
     armasdeproyectiles.municion= 8;
     armasdeproyectiles.damage= 3;
-    armasdeproyectiles.desgaste= 
+    armasdeproyectiles.desgaste=0; //arreglar valor
 
-    armasdeproyectiles.todaslasarmas= "Tirachinas"
-    armasdeproyectiles.municion= 20
+    armasdeproyectiles.todaslasarmas= "Tirachinas";
+    armasdeproyectiles.municion= 20;
     armasdeproyectiles.damage= 3;
     armasdeproyectiles.desgaste= 1;
-}
+};
 
 void armas5(){
     armasarrojadizas.todaslasarmas="Granada";
@@ -151,8 +153,7 @@ void armas5(){
     armasarrojadizas.municion=5;
     armasarrojadizas.damage= 40;
     
-}
-}
+};
 int main() {
     int opciones;
 
