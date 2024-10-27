@@ -1,8 +1,41 @@
 #include <iostream>
 using namespace std;
 
-int main() {
-    cout << "Londres, 2024. Lo que comenzó como una serie de extraños síntomas en pequeñas comunidades a lo largo y ancho del país, pronto se reveló como una pesadilla global. Investigaciones preliminares apuntan a un incidente aéreo en el Canal de la Mancha, donde uncargamento altamente confidencial de patógenos modificados a partir del COVID-19 se habríadispersado en la atmósfera. La comunidad internacional se encuentra al borde del pánico, mientras expertos en salud pública y gobiernos intentan contener lo que parece ser una guerrabiológica desatada accidentalmente" << "\n" << "La Dra. Emily Carter se encontraba en su laboratorio cuando recibió la llamada. Un nuevovirus, mucho más agresivo que cualquier otro conocido, estaba diezmando poblaciones enteras. Como viróloga experta, sabía que solo había una explicación: una fuga en uno de los laboratoriossecretos que habían estado desarrollando armas biológicas. Sin embargo, cuando comenzó ainvestigar, se encontró con una conspiración mucho más profunda de lo que jamás habíaimaginado. Las grandes potencias habían estado jugando con fuego, y ahora el mundo enteroestaba pagando las consecuencias" <<"\n"<< "Al principio, solo habíamos visto los zombies clásicos: lentos, torpes y fáciles de esquivar. Pero a medida que la infección se propagaba, comenzaron a surgir nuevas variantes. Los rápidos" << "\n" << "nos perseguían por las calles, los tanques derribaban las barricadas, y los inteligentes nos tendíanemboscadas. Era como si el virus estuviera evolucionando, adaptándose a nuestras estrategias. Ylo peor de todo, habíamos empezado a ver zombies que brillaban en la oscuridad, como si fueranlinternas vivientes.Pero ahora existían de distintos tipos";
 
-return 0;
-}
+
+int main() {
+    int opciones;
+
+    do {
+        cout << "=======Menu=======" << "\n";
+        cout << "1) Comenzar Juego" << "\n";
+        cout << "2) Ajustes" << "\n";
+        cout << "3) Salir" << "\n";
+        cout << "==================" << "\n";
+        cout << "Seleccione una opcion: ";
+
+        cin >> opciones;
+
+        switch(opciones) {
+            case 1:
+                cout << "El juego comienza\n";
+                cout << "Londres, 2024. Lo que comenzó como una serie de extraños síntomas en pequeñas comunidades a lo largo y ancho del país, pronto se reveló como una pesadilla global. Investigaciones preliminares apuntan a un incidente aéreo en el Canal de la Mancha, donde uncargamento altamente confidencial de patógenos modificados a partir del COVID-19 se habríadispersado en la atmósfera. La comunidad internacional se encuentra al borde del pánico, mientras expertos en salud pública y gobiernos intentan contener lo que parece ser una guerrabiológica desatada accidentalmente" << "\n" << "La Dra. Emily Carter se encontraba en su laboratorio cuando recibió la llamada. Un nuevovirus, mucho más agresivo que cualquier otro conocido, estaba diezmando poblaciones enteras. Como viróloga experta, sabía que solo había una explicación: una fuga en uno de los laboratoriossecretos que habían estado desarrollando armas biológicas. Sin embargo, cuando comenzó ainvestigar, se encontró con una conspiración mucho más profunda de lo que jamás habíaimaginado. Las grandes potencias habían estado jugando con fuego, y ahora el mundo enteroestaba pagando las consecuencias" <<"\n"<< "Al principio, solo habíamos visto los zombies clásicos: lentos, torpes y fáciles de esquivar. Pero a medida que la infección se propagaba, comenzaron a surgir nuevas variantes. Los rápidos" << "\n" << "nos perseguían por las calles, los tanques derribaban las barricadas, y los inteligentes nos tendíanemboscadas. Era como si el virus estuviera evolucionando, adaptándose a nuestras estrategias. Ylo peor de todo, habíamos empezado a ver zombies que brillaban en la oscuridad, como si fueranlinternas vivientes.Pero ahora existían de distintos tipos";
+                break;
+            case 2:
+                cout << "Entraste en los ajustes\n";
+                cout<<"Por ahora estas en un modo demo del juego, asi que no hay mucho que ver por aquí\n";
+                cout<<"Volveras al menu principal en 3, 2, 1...\n";
+                break;
+            case 3:
+                cout << "Espero le haya gustado el juego, Hasta pronto\n";
+                break;
+            default:
+                cout << "Error, no es una opcion valida\n";
+                break;
+        }
+        cout << "\n";
+        
+    } while(opciones != 3);
+
+    return 0;
+} 
