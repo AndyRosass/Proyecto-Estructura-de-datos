@@ -1,0 +1,29 @@
+Cosas que faltan en el proyecto 
+
+1) Modificar el soldado 
+a)cambiarle el nombre
+y otras cosas mas
+
+1) Armas:
+a) que se agrege a la mochila del soldado
+
+b) conectar todo el codigo y permitir modificar los datos
+
+c) mostrar la vitacora de los soldados, asi vemos como va la mision
+
+3)mapa
+a)crear el mapa con grafos 
+
+4) Mostar el progreso completo en una opcion aparte (Opcional y debatible por que ya se muestra en el proyecto pero no ordenado)
+
+5) mostrar las curciones y que se agreguen al soldado (ya esta la funcion creada)
+
+
+
+Errores en el codigo (revisar)
+a) cuando el usuario elige la opcio 3 en algnos casos a la hora de escoger un zombie, soldado y arma, y se le da a salir se termina el programa 
+b) hacer el codigo para idiotas (dicho por el profe)
+
+
+
+
