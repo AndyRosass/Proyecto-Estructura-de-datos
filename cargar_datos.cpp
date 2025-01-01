@@ -23,7 +23,7 @@ ListaZombie *cargarZombies(void) {
   ListaZombie *lista = NULL;
 
   if (!existe(ZMB_CONF_PATH)) {
-    std::cout << "No existe el archivo de soldados\n";
+    std::cout << "No existe el archivo de zombie\n";
 
     return NULL;
   }
@@ -106,7 +106,6 @@ Mochila *cargarObjetos(void) {
 ListaSoldado *cargarSoldados(void) {
   if (!existe(SOLD_CONF_PATH)) {
     std::cout << "No existe el archivo de soldados\n";
-
     return NULL;
   }
 
@@ -123,33 +122,20 @@ ListaSoldado *cargarSoldados(void) {
 
   cant = stoi(linea);
 
-  for (int i = 0; i > cant; i++) {
+  for (int i = 0; i < cant; i++) {
     getline(datosSold, linea); // Quitar el ---
 
     getline(datosSold, linea);
     nombre = linea;
 
-    std::cout << "Nombre: " << nombre << "\n";
     getline(datosSold, linea);
     salud = stoi(linea);
 
-    std::cout << "Vida: " << salud << "\n";
     soldado = crearSoldado(salud, nombre);
 
     agregarAListaSoldado(&lista, soldado);
-    ListaSoldado *aux = lista;
-    while (aux != NULL) {
-      std::cout << "Me ejecuto\n";
-
-      std::cout << "Nombre: " << aux->soldado->nombre << "\n";
-      std::cout << "Vida: " << aux->soldado->vida << "\n";
-      aux = aux->sig;
-    }
   }
   datosSold.close();
-  if (lista == NULL) {
-    std::cout << "La lista esta vacia\n";
-  }
 
   return lista;
 }
@@ -158,8 +144,9 @@ ListaSoldado *cargarSoldados(void) {
 int main() {
   ListaSoldado *lista = cargarSoldados();
   ListaSoldado *aux = lista;
+  std::cout << "Soldados: " << std::endl;
+
   while (aux != NULL) {
-    std::cout << "Me ejecuto\n";
 
     std::cout << "Nombre: " << aux->soldado->nombre << "\n";
     std::cout << "Vida: " << aux->soldado->vida << "\n";
@@ -167,5 +154,30 @@ int main() {
   }
 
   eliminarListaSoldado(&lista);
+
+  ListaZombie *lZombie = cargarZombies();
+  ListaZombie *auxZ = lZombie;
+  std::cout << "Zombies: " << std::endl;
+  while (auxZ != NULL) {
+    std::cout << "Nombre: " << auxZ->zombie->nombre << "\n";
+    std::cout << "Dmg: " << auxZ->zombie->dmg << "\n";
+    std::cout << "Vida: " << auxZ->zombie->vida << "\n";
+    auxZ = auxZ->sig;
+  }
+
+  eliminarListaZombie(&lZombie);
+
+  Mochila *mochila = cargarObjetos();
+  Mochila *auxM = mochila;
+  while (auxM != NULL) {
+    std::cout << "ID: " << auxM->objeto->id << "\n";
+    std::cout << "Nombre: " << auxM->objeto->nombre << "\n";
+    std::cout << "Categoria: " << auxM->objeto->categoria << "\n";
+    std::cout << "Valor: " << auxM->objeto->valor << "\n";
+    std::cout << "Usos: " << auxM->objeto->usos << "\n";
+    auxM = auxM->sig;
+  }
+  eliminarMochila(&mochila);
+
   return 0;
 }
