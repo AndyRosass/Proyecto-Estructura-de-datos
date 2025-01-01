@@ -1,0 +1,36 @@
+Se deben poder subir los archivos para cargar la información
+	Accesorio.zmb
+	Mapa.zmb
+	Soldado.zmb
+	Zombie.zmb
+
+En el inicio del menu de misiones se definen 
+  	
+  	* Los equipos 
+  	
+  	* Punto de partida de cada Equipo
+  	
+  	* Punto de llegada
+
+
+Misiones
+
+	* El camino más corto entre los dos puntos de cada equipo.
+
+	* El camino con menor cantidad de zombies o menor fuerza de zombies entre dos puntos. 
+
+	* El camino con mas corto entre dos puntos donde pueda existir la posibilidad de un sobreviviente que llegue la cura.
+
+Bitácora
+	
+	Las peleas entre los zombies y humanos, empiezan con los humanos atacando
+		* Los humanos nunca atacaran con un arma cuya fuerza sea mayor que la del conjunto de los zombies , a menos que sea su última arma.
+		* Luego de dos ataques seguidos de humanos atacan los zombies.
+		* Todos los humanos atacan al mismo tiempo.
+		* Los zombies atacan en oleadas de hasta 5 por vez.
+		* Los zombies atacan primero al azar y luego al humano del equipo mas débil.
+		* Se alternarán hasta que mueran los humanos o los zombies.
+		* Los accesorios de defensa hara que los zombies.
+		* Los humanos pueden tomar las armas de los muertos.
+
+	La bitácora resumirá por estación la lucha entre humanos y zombies.  
