@@ -46,6 +46,8 @@ ListaZombie *cargarZombies(void) {
 
     std::getline(datosZmb, linea);
     nombre = linea;
+    nombre.pop_back(); // Mrc esta mierda me daba unos errores locos por el
+                       // caracter de retorno ajjaja
 
     std::getline(datosZmb, linea);
 
@@ -84,9 +86,11 @@ Mochila *cargarObjetos(void) {
     getline(datosAcc, linea);
     getline(datosAcc, linea);
     nombre = linea;
+    nombre.pop_back();
 
     getline(datosAcc, linea);
     categoria = linea;
+    categoria.pop_back();
 
     getline(datosAcc, linea);
     valor = stoi(linea);
@@ -127,6 +131,7 @@ ListaSoldado *cargarSoldados(void) {
 
     getline(datosSold, linea);
     nombre = linea;
+    nombre.pop_back();
 
     getline(datosSold, linea);
     salud = stoi(linea);
@@ -140,44 +145,3 @@ ListaSoldado *cargarSoldados(void) {
   return lista;
 }
 //
-
-int main() {
-  ListaSoldado *lista = cargarSoldados();
-  ListaSoldado *aux = lista;
-  std::cout << "Soldados: " << std::endl;
-
-  while (aux != NULL) {
-
-    std::cout << "Nombre: " << aux->soldado->nombre << "\n";
-    std::cout << "Vida: " << aux->soldado->vida << "\n";
-    aux = aux->sig;
-  }
-
-  eliminarListaSoldado(&lista);
-
-  ListaZombie *lZombie = cargarZombies();
-  ListaZombie *auxZ = lZombie;
-  std::cout << "Zombies: " << std::endl;
-  while (auxZ != NULL) {
-    std::cout << "Nombre: " << auxZ->zombie->nombre << "\n";
-    std::cout << "Dmg: " << auxZ->zombie->dmg << "\n";
-    std::cout << "Vida: " << auxZ->zombie->vida << "\n";
-    auxZ = auxZ->sig;
-  }
-
-  eliminarListaZombie(&lZombie);
-
-  Mochila *mochila = cargarObjetos();
-  Mochila *auxM = mochila;
-  while (auxM != NULL) {
-    std::cout << "ID: " << auxM->objeto->id << "\n";
-    std::cout << "Nombre: " << auxM->objeto->nombre << "\n";
-    std::cout << "Categoria: " << auxM->objeto->categoria << "\n";
-    std::cout << "Valor: " << auxM->objeto->valor << "\n";
-    std::cout << "Usos: " << auxM->objeto->usos << "\n";
-    auxM = auxM->sig;
-  }
-  eliminarMochila(&mochila);
-
-  return 0;
-}
