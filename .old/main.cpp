@@ -1,5 +1,7 @@
 #include <iostream>
 #include <string>
+#include <limits>
+
 // Macros para crear zombies
 #define NEW_ZB_AGIL crearZombie(70, 5, "Agil y veloz")
 #define NEW_ZB_FUER crearZombie(120, 15, "Fuerte")
@@ -350,20 +352,32 @@ void mostrarEquipoSoldado(EquipoSoldado *equipo) {
 
 // Fin funciones de soldados
 
+void opc_equivocada() {
+    cin.clear(); // Limpia el error de la opcion del usuario
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Descarta la opcion equicocada del usuario
+}
+ // fin funcion de opcion erronea 
+
 int main() {
     int opciones;
     EquipoSoldado *equipo = NULL;
     ListaZombie *ListaZombie = NULL;
 
     do {
-        cout << "=======Menu=======" << "\n";
-        cout << "1) Comenzar Juego" << "\n";
-        cout << "2) Ajustes" << "\n";
-        cout << "3) Salir" << "\n";
-        cout << "==================" << "\n";
-        cout << "Seleccione una opcion: ";
-
+        cout << "======= Menu =======\n";
+        cout << "1) Comenzar Juego\n";
+        cout << "2) Ajustes\n";
+        cout << "3) Salir\n";
+        cout << "===================\n";
+        cout << "Seleccione una opción: ";
         cin >> opciones;
+
+        while (cin.fail() || opciones < 1 || opciones > 3) {
+            opc_equivocada();
+            cout << "Error, no es una opción válida. Intente nuevamente.\n";
+            cout << "Seleccione una opción: ";
+            cin >> opciones;
+        }
 
         switch(opciones) {
             case 1:
@@ -371,99 +385,111 @@ int main() {
                 cout << "Londres, 2024. Lo que comenzó como una serie de extraños síntomas en pequeñas comunidades a lo largo y ancho del país, pronto se reveló como una pesadilla global. Investigaciones preliminares apuntan a un incidente aéreo en el Canal de la Mancha, donde un cargamento altamente confidencial de patógenos modificados a partir del COVID-19 se habría dispersado en la atmósfera. La comunidad internacional se encuentra al borde del pánico, mientras expertos en salud pública y gobiernos intentan contener lo que parece ser una guerra biológica desatada accidentalmente.\n";
                 cout << "La Dra. Emily Carter se encontraba en su laboratorio cuando recibió la llamada. Un nuevo virus, mucho más agresivo que cualquier otro conocido, estaba diezmando poblaciones enteras. Como viróloga experta, sabía que solo había una explicación: una fuga en uno de los laboratorios secretos que habían estado desarrollando armas biológicas. Sin embargo, cuando comenzó a investigar, se encontró con una conspiración mucho más profunda de lo que jamás había imaginado. Las grandes potencias habían estado jugando con fuego, y ahora el mundo entero estaba pagando las consecuencias.\n";
                 cout << "Al principio, solo habíamos visto los zombies clásicos: lentos, torpes y fáciles de esquivar. Pero a medida que la infección se propagaba, comenzaron a surgir nuevas variantes. Los rápidos nos perseguían por las calles, los tanques derribaban las barricadas, y los inteligentes nos tendían emboscadas. Era como si el virus estuviera evolucionando, adaptándose a nuestras estrategias. Y lo peor de todo, habíamos empezado a ver zombies que brillaban en la oscuridad, como si fueran linternas vivientes. Pero ahora existían de distintos tipos.\n";
-                cout << "Para continuar con el juego, por favor presiona 1: ";
+               
                 int opcion1;
+                cout << "Para continuar con el juego, por favor presiona 1: ";
                 cin >> opcion1;
 
-                if (opcion1 == 1) {
-                    int opc_usuario1;
-                    do {
-                        cout << "=======Juego=======" << "\n";
-                        cout << "1) Agregar Soldado" << "\n";
-                        cout << "2) Agregar Zombie" << "\n";
-                        cout << "3) Regresar al menú principal" << "\n";
-                        cout << "==================" << "\n";
-                        cout << "Seleccione una opcion: ";
-                        cin >> opc_usuario1;
-
-                        switch(opc_usuario1) {
-                            case 1:
-                                cout << "Que tipo de soldado desea agregar\n1) Comandante\n2) Tanque\n3) Veterano\n4) Novato\n5) Apoyo\nSeleccione: ";
-                                cin >> opciones;
-                                switch (opciones) {
-                                    case 1:
-                                        agregarAEquipoSoldado(&equipo, NEW_SOLD_COMA);
-                                        break;
-                                    case 2:
-                                        agregarAEquipoSoldado(&equipo, NEW_SOLD_TANK);
-                                        break;
-                                    case 3:
-                                        agregarAEquipoSoldado(&equipo, NEW_SOLD_VETE);
-                                        break;
-                                    case 4:
-                                        agregarAEquipoSoldado(&equipo, NEW_SOLD_NOVA);
-                                        break;
-                                    case 5:
-                                        agregarAEquipoSoldado(&equipo, NEW_SOLD_APOY);
-                                        break;
-                                    default:
-                                        cout << "Error, no es una opcion valida\n";
-                                        break;
-                                }
-                                mostrarEquipoSoldado(equipo);
-                                break;
-                            case 2:
-                                cout << "Que tipo de zombie desea agregar\n1) Agil y veloz\n2) Fuerte\n3) Inteligente\n4) Infectado por Hongos\n5) Bioluminiscente\nSeleccione: ";
-                                cin >> opciones;
-                                switch (opciones) {
-                                    case 1:
-                                        agregarAListaZombie(&ListaZombie, NEW_ZB_AGIL);
-                                        break;
-                                    case 2:
-                                        agregarAListaZombie(&ListaZombie, NEW_ZB_FUER);
-                                        break;
-                                    case 3:
-                                        agregarAListaZombie(&ListaZombie, NEW_ZB_INTE);
-                                        break;
-                                    case 4:
-                                        agregarAListaZombie(&ListaZombie, NEW_ZB_HONG);
-                                        break;
-                                    case 5:
-                                        agregarAListaZombie(&ListaZombie, NEW_ZB_BIOL);
-                                        break;
-                                    default:
-                                        cout << "Error, no es una opcion valida\n";
-                                        break;
-                                }
-                                mostrarListaZombie(ListaZombie);
-                                break;
-                            case 3:
-                                cout << "Regresando al menú principal...\n";
-                                break;
-                            default:
-                                cout << "Error, no es una opcion valida\n";
-                                break;
-                        }
-                        cout << "\n";
-                    } while(opc_usuario1 != 3);
-                } else {
-                    cout << "Error, no es una opcion valida\n";
+                while (cin.fail() || opcion1 != 1) {
+                    opc_equivocada();
+                    cout << "Error, no es una opción válida. Para poder empezar a jugar por favor presiona 1: ";
+                    cin >> opcion1;
                 }
+
+                int opc_usuario1;
+                do {
+                    cout << "======= Juego =======\n";
+                    cout << "1) Agregar Soldado\n";
+                    cout << "2) Agregar Zombie\n";
+                    cout << "3) Regresar al menú principal\n";
+                    cout << "===================\n";
+                    cout << "Seleccione una opción: ";
+                    cin >> opc_usuario1;
+
+                    while (cin.fail() || opc_usuario1 < 1 || opc_usuario1 > 3) {
+                        opc_equivocada();
+                        cout << "Error, no es una opción válida. Por favor selecciona una opción válida: ";
+                        cin >> opc_usuario1;
+                    }
+
+                    switch(opc_usuario1) {
+                        case 1:
+                            cout << "¿Qué tipo de soldado desea agregar?\n4) Comandante\n5) Tanque\n6) Veterano\n7) Novato\n8) Apoyo\nSeleccione: ";
+                            cin >> opciones;
+                            while (cin.fail() || opciones < 4 || opciones > 8) {
+                                opc_equivocada();
+                                cout << "Error, no es una opción válida. Para agregar un soldado a tu escuadrón, por favor selecciona una opción correcta: ";
+                                cin >> opciones;
+                            }
+                            switch (opciones) {
+                                case 4:
+                                    agregarAEquipoSoldado(&equipo, NEW_SOLD_COMA);
+                                    break;
+                                case 5:
+                                    agregarAEquipoSoldado(&equipo, NEW_SOLD_TANK);
+                                    break;
+                                case 6:
+                                    agregarAEquipoSoldado(&equipo, NEW_SOLD_VETE);
+                                    break;
+                                case 7:
+                                    agregarAEquipoSoldado(&equipo, NEW_SOLD_NOVA);
+                                    break;
+                                case 8:
+                                    agregarAEquipoSoldado(&equipo, NEW_SOLD_APOY);
+                                    break;
+                            }
+                            mostrarEquipoSoldado(equipo);
+                            break;
+                        case 2:
+                            cout << "¿Qué tipo de zombie desea agregar?\n4) Ágil y veloz\n5) Fuerte\n6) Inteligente\n7) Infectado por Hongos\n8) Bioluminiscente\nSeleccione: ";
+                            cin >> opciones;
+                            while (cin.fail() || opciones < 1 || opciones > 5) {
+                                opc_equivocada();
+                                cout << "Error, no es una opción válida. Si deseas agregar un zombie, por favor selecciona la opción correcta: ";
+                                cin >> opciones;
+                            }
+                            switch (opciones) {
+                                case 4:
+                                    agregarAListaZombie(&ListaZombie, NEW_ZB_AGIL);
+                                    break;
+                                case 5:
+                                    agregarAListaZombie(&ListaZombie, NEW_ZB_FUER);
+                                    break;
+                                case 6:
+                                    agregarAListaZombie(&ListaZombie, NEW_ZB_INTE);
+                                    break;
+                                case 7:
+                                    agregarAListaZombie(&ListaZombie, NEW_ZB_HONG);
+                                    break;
+                                case 8:
+                                    agregarAListaZombie(&ListaZombie, NEW_ZB_BIOL);
+                                    break;
+                            }
+                            mostrarListaZombie(ListaZombie);
+                            break;
+                        case 3:
+                            cout << "Regresando al menú principal...\n";
+                            break;
+                    }
+                    cout << "\n";
+                } while(opc_usuario1 != 3);
                 break;
             case 2:
                 int opc_usuario2;
                 do {
                     cout << "Entraste en los ajustes\n";
-                    cout << "Por ahora estas en un modo demo del juego, asi que no hay mucho que ver por aquí\n";
+                    cout << "Por ahora estás en un modo demo del juego, así que no hay mucho que ver por aquí\n";
                     cout << "Presione 0 para regresar al menú principal: ";
                     cin >> opc_usuario2;
+                    while (cin.fail() || opc_usuario2 != 0) {
+                        opc_equivocada();
+                        cout << "Error, no es una opción válida. Por favor presione 0: ";
+                        cin >> opc_usuario2;
+                    }
                 } while(opc_usuario2 != 0);
                 break;
             case 3:
-                cout << "Espero le haya gustado el juego, Hasta pronto\n";
-                break;
-            default:
-                cout << "Error, no es una opcion valida\n";
+                cout << "Espero le haya gustado el juego, ¡Hasta pronto!\n";
                 break;
         }
         cout << "\n";
