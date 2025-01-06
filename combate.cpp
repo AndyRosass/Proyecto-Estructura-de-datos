@@ -35,6 +35,11 @@ void mostrarDatosZombie(ListaZombie *oleada) {
   std::string vida = "Vida: | ";
   int cont = 1;
   while (oleada != NULL) {
+    if (oleada->zombie->vida <= 0) {
+      oleada = oleada->sig;
+      continue;
+    }
+
     posicion += std::to_string(cont) + " | ";
     tipo += oleada->zombie->nombre + " | ";
     vida += std::to_string(oleada->zombie->vida) + " | ";
@@ -113,23 +118,36 @@ void atacarSoldado(Soldado **actual, ListaZombie **oleada) {
                 << balas << "\n"
                 << dmg << std::endl;
       while (true) {
+
+        std::cout << "\n"
+                  << num << "\n"
+                  << nombre << "\n"
+                  << balas << "\n"
+                  << dmg << std::endl;
+
         std::cout << "Selecciona el arma que quieres usar: ";
         std::cin >> opcion;
         limpiarBuffer();
+
         if (!esNumero(opcion)) {
           std::cout << "Por favor ingrese un numero valido\n";
           continue;
         }
         if (stoi(opcion) < 1 || stoi(opcion) > listaObjetoslen(armasDispo)) {
-          std::cout << "Por favor ingrese un numero valido\n";
+          std::cout << "Por favor ingrese un numero dentro del rango\n";
           continue;
         }
+        Mochila *seleccionada_moch = armasDispo;
         for (int i = 1; i < stoi(opcion); i++) {
-          armasDispo = armasDispo->sig;
+          seleccionada_moch = seleccionada_moch->sig;
         }
         seleccionada = armasDispo->objeto;
-        if (seleccionada->valor > getPoderCombinadoZmb(*oleada)) {
-          std::cout << "El arma seleccionada es muy fuerte para el zombie\n";
+        if (seleccionada->valor > getPoderCombinadoZmb(*oleada) &&
+            verificarArmas((*actual)->mochila, seleccionada->valor)) {
+
+          std::cout << "El arma seleccionada es muy fuerte para el zombie\n"
+                    << getPoderCombinadoZmb(*oleada) << "\n";
+
           continue;
         } else if (seleccionada->usos < 0) {
           std::cout << "El arma seleccionada no tiene balas\n";
@@ -144,8 +162,89 @@ void atacarSoldado(Soldado **actual, ListaZombie **oleada) {
   seleccionada->usos--;
 }
 
-void soldadoOpciones(Soldado **actual, ListaZombie **oleada) {
+void usarObjeto(Soldado **actual) {
+  if ((*actual)->mochila == NULL) {
+    std::cout << "La mochila está vacía o no existe.\n";
+    return;
+  }
 
+  Mochila *aux = (*actual)->mochila;
+  Mochila *objetosDispo = NULL;
+
+  while (aux != NULL) {
+    if (aux->objeto->categoria != "Ataque") {
+      agregarAMochila(&objetosDispo, aux->objeto);
+    }
+    aux = aux->sig;
+  }
+
+  if (objetosDispo == NULL) {
+    std::cout << "No hay objetos disponibles para usar.\n";
+    return;
+  }
+
+  aux = objetosDispo;
+  std::string num = "Numero : | ";
+  std::string nombre = "Nombre : | ";
+  std::string categoria = "Categoria : | ";
+  int cont = 1;
+
+  while (aux != NULL) {
+    if (aux->objeto->categoria == "Ataque") {
+      aux = aux->sig;
+      continue;
+    }
+
+    num += std::to_string(cont) + " | ";
+    nombre += aux->objeto->nombre + " | ";
+    categoria += aux->objeto->categoria + " | ";
+    cont++;
+    aux = aux->sig;
+  }
+
+  std::cout << num << "\n" << nombre << "\n" << categoria << std::endl;
+
+  std::string opcion;
+  while (true) {
+    std::cout << "Elige un objeto para usar: ";
+    std::cin >> opcion;
+    limpiarBuffer();
+
+    if (!esNumero(opcion)) {
+      std::cout << "Por favor ingrese un numero valido\n";
+      continue;
+    }
+
+    if (stoi(opcion) < 1 || stoi(opcion) > cont - 1) {
+      std::cout << "Por favor ingrese un numero valido\n";
+      continue;
+    }
+
+    aux = objetosDispo;
+    for (int i = 1; i < stoi(opcion); i++) {
+      aux = aux->sig;
+    }
+
+    Objeto *objetoElegido = aux->objeto;
+    if (objetoElegido->categoria == "Supervivencia") {
+      (*actual)->vida += objetoElegido->valor;
+      if ((*actual)->vida > (*actual)->vida_maxima) {
+        (*actual)->vida = (*actual)->vida_maxima;
+      }
+      std::cout << "El soldado ha sido curado. Vida actual: " << (*actual)->vida
+                << "\n";
+    } else {
+      (*actual)->defensa = objetoElegido->valor;
+      std::cout << "El soldado ha aumentado su defensa. Defensa actual: "
+                << (*actual)->defensa << "\n";
+    }
+    break;
+  }
+}
+
+void soldadoOpciones(Soldado **actual, ListaZombie **oleada) {
+  if (todosZombiesMuertos(*oleada))
+    return;
   std::string opcion;
   bool salir = false;
 
@@ -168,7 +267,11 @@ void soldadoOpciones(Soldado **actual, ListaZombie **oleada) {
       break;
 
     case 2:
-      continue;
+      // Aqui crea una funcion que tome como referencia la mochila del soldado y
+      // le de la opcion de elegir un objeto siempre y cuando no sea un arma
+      // (objeto->categoria != "Ataque") ademas de que si el objeto es de
+      // curacion, se le aplique al soldado que lo use
+      usarObjeto(actual);
       salir = true;
       break;
 
@@ -185,19 +288,121 @@ void soldadoOpciones(Soldado **actual, ListaZombie **oleada) {
 
 void combate(ListaSoldado **soldados, ListaZombie **zombies) {
   int turno = 1;
-  // 2 turnos seguidos de ataques Humanos
+
+  // Primeros 2 turnos de los humanos
+  for (int i = 0; i < 2; ++i) {
+    ListaSoldado *aux = *soldados;
+    while (aux != NULL) {
+      soldadoOpciones(&(aux->soldado), zombies);
+      aux = aux->sig;
+    }
+    if (*zombies == NULL || todosZombiesMuertos(*zombies)) {
+      std::cout << "Los soldados han ganado.\n";
+      return;
+    }
+  }
+
+  // Bucle principal de combate
+  while (*soldados != NULL && *zombies != NULL) {
+    // Turno de los humanos
+    ListaSoldado *auxSoldado = *soldados;
+    while (auxSoldado != NULL) {
+      soldadoOpciones(&(auxSoldado->soldado), zombies);
+      auxSoldado = auxSoldado->sig;
+    }
+
+    // Verificar si todos los zombies han muerto
+    if (*zombies == NULL || todosZombiesMuertos(*zombies)) {
+      std::cout << "Los soldados han ganado.\n";
+      return;
+    }
+
+    // Turno de los zombies
+    if (turno % 2 == 0) {
+      ListaZombie *auxZombie = *zombies;
+      while (auxZombie != NULL) {
+        // Seleccionar un soldado al azar para atacar
+        int numSoldados = listaSoldadolen(*soldados);
+        int pos = rand() % numSoldados;
+        ListaSoldado *soldadoAtacado = *soldados;
+        for (int i = 0; i < pos; ++i) {
+          soldadoAtacado = soldadoAtacado->sig;
+        }
+        soldadoAtacado->soldado->vida -= auxZombie->zombie->dmg;
+        std::cout << auxZombie->zombie->nombre << " atacó a "
+                  << soldadoAtacado->soldado->nombre << " causando "
+                  << auxZombie->zombie->dmg << " de daño.\n";
+        auxZombie = auxZombie->sig;
+      }
+    }
+
+    // Eliminar soldados muertos
+    ListaSoldado *prevSoldado = NULL;
+    auxSoldado = *soldados;
+    while (auxSoldado != NULL) {
+      if (auxSoldado->soldado->vida <= 0) {
+        if (prevSoldado == NULL) {
+          *soldados = auxSoldado->sig;
+        } else {
+          prevSoldado->sig = auxSoldado->sig;
+        }
+        ListaSoldado *temp = auxSoldado;
+        auxSoldado = auxSoldado->sig;
+        delete temp->soldado;
+        delete temp;
+      } else {
+        prevSoldado = auxSoldado;
+        auxSoldado = auxSoldado->sig;
+      }
+    }
+
+    // Verificar si todos los soldados han muerto
+    if (*soldados == NULL) {
+      std::cout << "Los zombies han ganado.\n";
+      return;
+    }
+
+    // Eliminar zombies muertos
+    ListaZombie *prevZombie = NULL;
+    ListaZombie *auxZombie = *zombies;
+    while (auxZombie != NULL) {
+      if (auxZombie->zombie->vida <= 0) {
+        if (prevZombie == NULL) {
+          *zombies = auxZombie->sig;
+        } else {
+          prevZombie->sig = auxZombie->sig;
+        }
+        ListaZombie *temp = auxZombie;
+        auxZombie = auxZombie->sig;
+        delete temp->zombie;
+        delete temp;
+      } else {
+        prevZombie = auxZombie;
+        auxZombie = auxZombie->sig;
+      }
+    }
+
+    turno++;
+  }
+
+  if (*soldados == NULL) {
+    std::cout << "Los zombies han ganado.\n";
+  } else {
+    std::cout << "Los soldados han ganado.\n";
+  }
 }
 
 int main() {
-  ListaSoldado *l = cargarSoldados();
-  ListaZombie *z = cargarZombies();
-  Mochila *listaObjetos = cargarObjetos();
+  ListaSoldado *soldados = cargarSoldados();
+  ListaZombie *zombies = cargarZombies();
 
-  l->soldado->mochila = listaObjetos;
-  atacarSoldado(&l->soldado, &z);
+  ListaSoldado *aux = soldados;
 
-  eliminarListaZombie(&z);
-  eliminarListaSoldado(&l);
-
-  return 0;
+  while (aux != NULL) {
+    aux->soldado->mochila = cargarObjetos();
+    aux = aux->sig;
+  }
+  combate(&soldados, &zombies);
+  eliminarListaSoldado(&soldados);
+  eliminarListaZombie(&zombies);
 }

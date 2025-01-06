@@ -4,6 +4,8 @@
 
 struct Soldado {
   int vida;
+  int vida_maxima;
+  int defensa;
   std::string nombre;
   Mochila *mochila;
 };
@@ -13,9 +15,11 @@ struct ListaSoldado {
   ListaSoldado *sig;
 };
 
-Soldado *crearSoldado(int vida, std::string nombre) {
+Soldado *crearSoldado(int vida_maxima, int defensa, std::string nombre) {
   Soldado *soldado = new Soldado;
-  soldado->vida = vida;
+  soldado->vida_maxima = vida_maxima;
+  soldado->vida = vida_maxima;
+  soldado->defensa = defensa;
   soldado->nombre = nombre;
   soldado->mochila = NULL;
   return soldado;
@@ -114,4 +118,14 @@ void eliminarSoldado(ListaSoldado **lista, int pos) {
     ant->sig = aux->sig;
   }
   delete aux;
+}
+
+int listaSoldadolen(ListaSoldado *lista) {
+  assert(lista != NULL);
+  int cont = 0;
+  while (lista != NULL) {
+    cont++;
+    lista = lista->sig;
+  }
+  return cont;
 }

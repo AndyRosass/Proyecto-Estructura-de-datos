@@ -1,5 +1,6 @@
 #include "objetos.cpp"
 #include <cassert>
+#include <iostream>
 
 struct Mochila {
   Objeto *objeto;
@@ -82,4 +83,14 @@ Objeto *getObjeto(Mochila *listaObjetos, int id) {
     listaObjetos = listaObjetos->sig;
   }
   return NULL;
+}
+bool verificarArmas(Mochila *mochila, int numero) {
+  Mochila *aux = mochila;
+  while (aux != NULL) {
+    if (aux->objeto->categoria == "Ataque" && aux->objeto->valor <= numero) {
+      return false;
+    }
+    aux = aux->sig;
+  }
+  return true;
 }

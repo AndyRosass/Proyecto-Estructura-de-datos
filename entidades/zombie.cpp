@@ -118,3 +118,13 @@ int listaZombielen(ListaZombie *lista) {
   }
   return cont;
 }
+bool todosZombiesMuertos(ListaZombie *lista) {
+  ListaZombie *aux = lista;
+  while (aux != NULL) {
+    if (aux->zombie->vida > 0) {
+      return false;
+    }
+    aux = aux->sig;
+  }
+  return true;
+}

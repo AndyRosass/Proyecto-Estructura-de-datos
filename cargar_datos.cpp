@@ -136,7 +136,7 @@ ListaSoldado *cargarSoldados(void) {
     getline(datosSold, linea);
     salud = stoi(linea);
 
-    soldado = crearSoldado(salud, nombre);
+    soldado = crearSoldado(salud, 0, nombre);
 
     agregarAListaSoldado(&lista, soldado);
   }
