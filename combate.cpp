@@ -391,18 +391,3 @@ void combate(ListaSoldado **soldados, ListaZombie **zombies) {
     std::cout << "Los soldados han ganado.\n";
   }
 }
-
-int main() {
-  ListaSoldado *soldados = cargarSoldados();
-  ListaZombie *zombies = cargarZombies();
-
-  ListaSoldado *aux = soldados;
-
-  while (aux != NULL) {
-    aux->soldado->mochila = cargarObjetos();
-    aux = aux->sig;
-  }
-  combate(&soldados, &zombies);
-  eliminarListaSoldado(&soldados);
-  eliminarListaZombie(&zombies);
-}

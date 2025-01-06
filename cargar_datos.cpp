@@ -1,7 +1,9 @@
 // Solo para cargar datos de los datosAccivos .zmb
+#include "entidades/map.cpp"
 #include "entidades/soldado.cpp" // Incluye el archivo de Mochila y este a su vez el de objeto
 #include "entidades/zombie.cpp"
 #include <fstream>
+#include <sstream>
 #include <string.h>
 
 char ACC_CONF_PATH[] = "datos/Accesorio.zmb";
@@ -145,3 +147,53 @@ ListaSoldado *cargarSoldados(void) {
   return lista;
 }
 //
+//
+//
+std::vector<nodo *> cargarGrafo() {
+  std::ifstream file(MAP_CONF_PATH);
+  std::string line;
+  std::vector<nodo *> graph;
+  std::map<int, nodo *> nodeMap;
+
+  if (!file.is_open()) {
+    std::cerr << "No se pudo abrir el archivo: " << MAP_CONF_PATH << std::endl;
+    return graph;
+  }
+
+  int nodeCount;
+  std::getline(file, line);
+  nodeCount = std::stoi(line);
+
+  while (std::getline(file, line)) {
+    if (line == "---") {
+      int nodeId;
+      std::getline(file, line);
+      nodeId = std::stoi(line);
+
+      nodo *newNode = agregarnodo(nodeId);
+      graph.push_back(newNode);
+      nodeMap[nodeId] = newNode;
+
+      std::getline(file, line); // Skip the '-'
+
+      while (std::getline(file, line) && line != "--") {
+        // Process zombie data if needed
+      }
+
+      std::getline(file, line); // Skip the '--'
+
+      while (std::getline(file, line) && line != "---") {
+        std::istringstream iss(line);
+        std::string edge;
+        while (std::getline(iss, edge, '|')) {
+          int dest, weight;
+          sscanf(edge.c_str(), "%d:%d", &dest, &weight);
+          addaristas(newNode, nodeMap[dest], weight);
+        }
+      }
+    }
+  }
+
+  file.close();
+  return graph;
+}
