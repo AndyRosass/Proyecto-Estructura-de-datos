@@ -1,7 +1,9 @@
 // Solo para cargar datos de los datosAccivos .zmb
+#include "entidades/map.cpp"
 #include "entidades/soldado.cpp" // Incluye el archivo de Mochila y este a su vez el de objeto
 #include "entidades/zombie.cpp"
 #include <fstream>
+#include <sstream>
 #include <string.h>
 
 char ACC_CONF_PATH[] = "datos/Accesorio.zmb";
@@ -23,7 +25,7 @@ ListaZombie *cargarZombies(void) {
   ListaZombie *lista = NULL;
 
   if (!existe(ZMB_CONF_PATH)) {
-    std::cout << "No existe el archivo de soldados\n";
+    std::cout << "No existe el archivo de zombie\n";
 
     return NULL;
   }
@@ -46,6 +48,8 @@ ListaZombie *cargarZombies(void) {
 
     std::getline(datosZmb, linea);
     nombre = linea;
+    nombre.pop_back(); // Mrc esta mierda me daba unos errores locos por el
+                       // caracter de retorno ajjaja
 
     std::getline(datosZmb, linea);
 
@@ -84,9 +88,11 @@ Mochila *cargarObjetos(void) {
     getline(datosAcc, linea);
     getline(datosAcc, linea);
     nombre = linea;
+    nombre.pop_back();
 
     getline(datosAcc, linea);
     categoria = linea;
+    categoria.pop_back();
 
     getline(datosAcc, linea);
     valor = stoi(linea);
@@ -106,7 +112,6 @@ Mochila *cargarObjetos(void) {
 ListaSoldado *cargarSoldados(void) {
   if (!existe(SOLD_CONF_PATH)) {
     std::cout << "No existe el archivo de soldados\n";
-
     return NULL;
   }
 
@@ -123,49 +128,72 @@ ListaSoldado *cargarSoldados(void) {
 
   cant = stoi(linea);
 
-  for (int i = 0; i > cant; i++) {
+  for (int i = 0; i < cant; i++) {
     getline(datosSold, linea); // Quitar el ---
 
     getline(datosSold, linea);
     nombre = linea;
+    nombre.pop_back();
 
-    std::cout << "Nombre: " << nombre << "\n";
     getline(datosSold, linea);
     salud = stoi(linea);
 
-    std::cout << "Vida: " << salud << "\n";
-    soldado = crearSoldado(salud, nombre);
+    soldado = crearSoldado(salud, 0, nombre);
 
     agregarAListaSoldado(&lista, soldado);
-    ListaSoldado *aux = lista;
-    while (aux != NULL) {
-      std::cout << "Me ejecuto\n";
-
-      std::cout << "Nombre: " << aux->soldado->nombre << "\n";
-      std::cout << "Vida: " << aux->soldado->vida << "\n";
-      aux = aux->sig;
-    }
   }
   datosSold.close();
-  if (lista == NULL) {
-    std::cout << "La lista esta vacia\n";
-  }
 
   return lista;
 }
 //
+//
+//
+std::vector<nodo *> cargarGrafo() {
+  std::ifstream file(MAP_CONF_PATH);
+  std::string line;
+  std::vector<nodo *> graph;
+  std::map<int, nodo *> nodeMap;
 
-int main() {
-  ListaSoldado *lista = cargarSoldados();
-  ListaSoldado *aux = lista;
-  while (aux != NULL) {
-    std::cout << "Me ejecuto\n";
-
-    std::cout << "Nombre: " << aux->soldado->nombre << "\n";
-    std::cout << "Vida: " << aux->soldado->vida << "\n";
-    aux = aux->sig;
+  if (!file.is_open()) {
+    std::cerr << "No se pudo abrir el archivo: " << MAP_CONF_PATH << std::endl;
+    return graph;
   }
 
-  eliminarListaSoldado(&lista);
-  return 0;
+  int nodeCount;
+  std::getline(file, line);
+  nodeCount = std::stoi(line);
+
+  while (std::getline(file, line)) {
+    if (line == "---") {
+      int nodeId;
+      std::getline(file, line);
+      nodeId = std::stoi(line);
+
+      nodo *newNode = agregarnodo(nodeId);
+      graph.push_back(newNode);
+      nodeMap[nodeId] = newNode;
+
+      std::getline(file, line); // Skip the '-'
+
+      while (std::getline(file, line) && line != "--") {
+        // Process zombie data if needed
+      }
+
+      std::getline(file, line); // Skip the '--'
+
+      while (std::getline(file, line) && line != "---") {
+        std::istringstream iss(line);
+        std::string edge;
+        while (std::getline(iss, edge, '|')) {
+          int dest, weight;
+          sscanf(edge.c_str(), "%d:%d", &dest, &weight);
+          addaristas(newNode, nodeMap[dest], weight);
+        }
+      }
+    }
+  }
+
+  file.close();
+  return graph;
 }

@@ -1,3 +1,4 @@
+#include <cassert>
 #include <iostream>
 
 struct Zombie {
@@ -49,6 +50,7 @@ void eliminarListaZombie(ListaZombie **lista) {
   }
   *lista = NULL;
 };
+
 void mostrarListaZombie(ListaZombie *lista) {
   ListaZombie *aux = lista;
   while (aux != NULL) {
@@ -59,3 +61,70 @@ void mostrarListaZombie(ListaZombie *lista) {
     aux = aux->sig;
   }
 };
+
+int getPoderCombinadoZmb(ListaZombie *oleada) {
+  assert(oleada != NULL);
+  int poderComb = 0;
+  while (oleada != NULL) {
+    poderComb += oleada->zombie->dmg;
+    oleada = oleada->sig;
+  }
+  return poderComb;
+}
+
+void eliminarZombie(ListaZombie **lista, int pos) {
+  assert(*lista != NULL);
+  ListaZombie *aux = *lista;
+  ListaZombie *ant = NULL;
+  int cont = 1;
+  while (aux != NULL && cont < pos) {
+    ant = aux;
+    aux = aux->sig;
+    cont++;
+  }
+  if (aux == NULL) {
+    return;
+  }
+  if (ant == NULL) {
+    *lista = aux->sig;
+  } else {
+    ant->sig = aux->sig;
+  }
+  elimZombie(aux->zombie);
+  delete aux;
+};
+
+Zombie *getZombie(ListaZombie **oleada, int pos) {
+  int cont = 0;
+  ListaZombie *aux = *oleada;
+  while (aux != NULL && cont != pos) {
+    cont++;
+    aux = aux->sig;
+  }
+  if (aux == NULL) {
+    return NULL;
+  }
+  std::cout << "Zombie Seleccionado: " << aux->zombie->nombre << std::endl;
+
+  return aux->zombie;
+}
+
+int listaZombielen(ListaZombie *lista) {
+  assert(lista != NULL);
+  int cont = 0;
+  while (lista != NULL) {
+    cont++;
+    lista = lista->sig;
+  }
+  return cont;
+}
+bool todosZombiesMuertos(ListaZombie *lista) {
+  ListaZombie *aux = lista;
+  while (aux != NULL) {
+    if (aux->zombie->vida > 0) {
+      return false;
+    }
+    aux = aux->sig;
+  }
+  return true;
+}

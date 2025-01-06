@@ -1,11 +1,9 @@
-#include <iostream>
-
+#include <string>
 struct Objeto {
   std::string nombre;
   std::string categoria;
   int usos;
   int valor; // Si es arma seria el danio si es de supervivencia la cantidad de
-             // vida que recupera y si fuera de defensa la defensa que aumenta
   int id;
 };
 
